@@ -1,0 +1,22 @@
+class LongestSubstringWithoutRepeatingCharacters {
+    public int lengthOfLongestSubstring(String s){
+        int left = 0;
+        int right = 0;
+        char chars[] = s.toCharArray();
+
+        boolean frequency[] = new boolean[256];
+
+        int result = 0;
+
+        while(right < s.length()){
+
+            frequency[chars[right++]] = true;
+            result = Math.max(right - left, result);
+
+            while(right < s.length() && frequency[chars[right]])
+                frequency[chars[left++]] = false;
+        }
+        return result;
+
+    }
+}
