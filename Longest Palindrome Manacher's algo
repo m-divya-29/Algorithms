@@ -1,0 +1,48 @@
+
+import java.util.*;
+import java.io.*;
+
+class LongesPalindrome{
+    public static String transform(String  s)
+    {
+        String t="^";
+        for(int i=0; i<s.length();i++)
+            t+="#"+s.charAt(i);
+        return t+"#$";
+    }
+    
+    public static String find(String s)
+    {
+        String t = transform(s);
+        int c=0, r=0;
+        int p[] = new int[t.length()];
+        for(int i=1; i<t.length()-1; i++)
+        {
+            int mirror = 2*c-i;
+            
+            if(i<r)
+            p[i] = Math.min(r-i, p[mirror]);
+            
+            while(t.charAt(i+(1+p[i])) == t.charAt(i-(1+p[i])))
+                p[i]++;
+            
+            if(i+p[i]>r)
+            {
+                c=i;
+                r=p[i]+i;
+            }
+        }
+        
+        int max=0, ct=0;
+        for(int i=1; i<t.length()-1; i++)
+        {
+            if(max<p[i])
+            {
+                max=p[i];
+                ct = i;
+            }
+        }
+        return s.substring((ct-1-max)/2, (ct-1+max)/2);
+       
+    }
+}
